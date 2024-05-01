@@ -6,9 +6,23 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <div id="score"></div>
+    <div id="result"></div>
+    <div id="button-container">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+        <button id="reset">Reset</button>
+    </div>
     <script>
         let humanScore = 0;
         let computerScore = 0;
+        const score = document.querySelector("#score");
+        const result = document.querySelector("#result");
+        const btnRock = document.querySelector("#rock");
+        const btnPaper = document.querySelector("#paper");
+        const btnScissors = document.querySelector("#scissors");
+        const btnReset = document.querySelector("#reset");
 
         function getComputerChoice () {
             let choice = Math.floor(Math.random() * 3) + 1;
@@ -30,72 +44,81 @@
 
         function playRound(humanChoice, computerChoice) {
             switch (humanChoice) {
-                case "ROCK":
+                case "rock":
                     switch (computerChoice) {
                         case "Scissors":
-                            console.log("You win! Rock beats Scissors!");
+                            result.textContent = "You win! Rock beats Scissors!";
                             humanScore++;
                             break;
                         case "Paper":
-                            console.log("You lose! Paper beats Rock!");
+                            result.textContent = "You lose! Paper beats Rock!";
                             computerScore++
                             break;
                         case "Rock":
-                            console.log("Draw! You both threw Rock!");
+                            result.textContent = "Draw! You both threw Rock!";
                             break;
                     }
                     break;
-                case "SCISSORS":
+                case "scissors":
                     switch (computerChoice) {
                         case "Scissors":
-                            console.log("Draw! You both threw Scissors!");
+                            result.textContent = "Draw! You both threw Scissors!";
                             break;
                         case "Paper":
-                            console.log("You win! Scissors beats Paper!");
+                            result.textContent = "You win! Scissors beats Paper!";
                             humanScore++;
                             break;
                         case "Rock":
-                            console.log("You lose! Rock beats Scissors!");
+                            result.textContent = "You lose! Rock beats Scissors!";
                             computerScore++
                             break;
                     }
                     break;
-                case "PAPER":
+                case "paper":
                     switch (computerChoice) {
                         case "Scissors":
-                            console.log("You lose! Scissors beats Paper!");
+                            result.textContent = "You lose! Scissors beats Paper!";
                             computerScore++
                             break;
                         case "Paper":
-                            console.log("Draw! You both threw Paper!");
+                            result.textContent = "Draw! You both threw Paper!";
                             break;
                         case "Rock":
-                            console.log("You win! Paper beats Rock!");
+                            result.textContent = "You win! Paper beats Rock!";
                             humanScore++;
                             break;
                     }
                     break;
             }
-        }
-
-        function playGame() {
-
-            while (humanScore < 3 && computerScore < 3){
-                const humanSelection = getHumanChoice();
-                const computerSelection = getComputerChoice();
-                playRound(humanSelection, computerSelection);
-                console.log(`The score is now: ${humanScore} : ${computerScore}`);
-            }
-
-            if (humanScore > computerScore) {
-                console.log(`Congratulations! You won! The score was ${humanScore} to ${computerScore}!`)
+            if (humanScore < 5 && computerScore < 5){
+                score.textContent = `The current score is ${humanScore} : ${computerScore}`;
+            } else if (humanScore >= 5){
+                score.textContent = `You won! You beat the computer to 5! The final score was ${humanScore} : ${computerScore}!`;
             } else {
-                console.log(`You are unlucky and as a result, you lost! Miserably! The score was ${humanScore} to ${computerScore}!`)
+                score.textContent = `You lost! The computer beat you to 5! The final score was ${humanScore} : ${computerScore}!`;
             }
         }
+        
+        btnRock.addEventListener("click", () => {
+            const computerSelection = getComputerChoice();
+            playRound("rock", computerSelection);
+        });
 
-        playGame();
+        btnPaper.addEventListener("click", () => {
+            const computerSelection = getComputerChoice();
+            playRound("paper", computerSelection);
+        });
 
+        btnScissors.addEventListener("click", () => {
+            const computerSelection = getComputerChoice();
+            playRound("scissors", computerSelection);
+        })
+        btnReset.addEventListener("click", () => {
+            result.textContent = "The game has been reset!";
+            score.textContent = "";
+            humanScore = 0;
+            computerScore = 0;
+        })
     </script>
 </body>
 </html>
